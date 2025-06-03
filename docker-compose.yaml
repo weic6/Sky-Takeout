@@ -1,0 +1,12 @@
+services: # define one or more services required by the application
+  db: # define a service named `db`
+    # the db service will configure a MySQL container.
+    image: mysql:8.4 # tell docker to use the mysql:8.4 image
+    container_name: sky-mysql # name the container `sky-mysql`
+    environment: # set environment variables inside the container.
+      MYSQL_ROOT_PASSWORD: 123456 # set the root password to `123456`
+    ports: # exposes container ports on the host.
+      - "3306:3306" # map host port 3306 -> container port 3306.
+        # allows you (or other services) to connect to MySQL at localhost:3306.
+    volumes:
+      - ./mysql_data:/var/lib/mysql # take the `./mysql_data folder` and bind-mount it to `/var/lib/mysql` inside the container. so when MySQL stores all its database files in /var/lib/mysql, they will be persisted in the `./mysql_data` folder on the host.

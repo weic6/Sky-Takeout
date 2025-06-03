@@ -5,3 +5,6 @@
 *Test.java
 **/test/
 .vscode
+
+# local MySQL persistence
+mysql_data/

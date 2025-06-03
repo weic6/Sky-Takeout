@@ -12,3 +12,49 @@ Reference:
 1. https://blog.csdn.net/m0_74570541/article/details/133352659
 2. https://blog.csdn.net/qq_45828494/article/details/131982807
 3. https://github.com/weitianpaxi/sky_take_out/tree/main
+
+## Database
+
+The schema is provided in `sky.sql`. All actual data lives in a temporary Docker volume, so you can delete it at will.
+
+Follow the steps below to bring up a database for local development, seed it with demo data, and tear it down again.
+
+```python
+# start all services (includes service `db`) defined in the docker-compose.yml
+docker compose -f docker-compose.yaml up -d
+
+# view the logs of the db service defined in your docker-compose.yml
+docker compose logs -f db
+
+# inside the db container, creates the database and loads all data.
+docker compose exec -T db \
+  mysql -u root -p123456 < db/sky.sql # no space between -p and secret!
+#  • `docker compose exec db …` → “find the container for service ‘db’ (i.e. sky-mysql) and run … inside it.”
+#  • `mysql -u root -p123456` → launch the MySQL CLI as root, with password 123456.
+#  • `< db/sky.sql` → on your Mac, read the file `db/sky.sql` and send it into that CLI’s stdin.
+#  Because sky.sql’s first lines say “CREATE DATABASE IF NOT EXISTS sky_take_out; USE sky_take_out; …”,
+#  MySQL will create the database and load all tables + seed data in one shot.
+
+# use database `sky_take_out`
+docker compose exec db \
+  mysql -u root -p123456 sky_take_out
+#  You’ll see a prompt like:
+#
+#       mysql> SHOW TABLES;
+#       +-------------------+
+#       | Tables_in_sky_take_out |
+#       +-------------------+
+#       | address_book      |
+#       | category          |
+#       | dish              |
+#       | …                 |
+#       +-------------------+
+
+# remove/create container
+docker compose -f docker-compose.yaml down
+docker compose -f docker-compose.yaml up -d
+
+# pause/start container
+docker compose -f docker-compose.yaml stop
+docker compose -f docker-compose.yaml start
+```
