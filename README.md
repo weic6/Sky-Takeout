@@ -6,62 +6,63 @@
 4. copy nginx.conf from `/前端运行环境/nginx-1.20.2/conf`, and replace the original nginx.conf in `/opt/homebrew/etc/nginx` (`brew info nginx`, and look for address like `/opt/homebrew/etc/nginx/nginx.conf`). I change the ports number to as below:
 
    ```bash
-   worker_processes  1;
+    worker_processes  1;
 
-   events {
-       worker_connections  1024;
-   }
+    events {
+        worker_connections  1024;
+    }
 
-   http {
-       include       mime.types;
-       default_type  application/octet-stream;
+    http {
+        include       mime.types;
+        default_type  application/octet-stream;
 
-       sendfile        on;
+        sendfile        on;
 
-       keepalive_timeout  65;
+        keepalive_timeout  65;
 
-     map $http_upgrade $connection_upgrade{
-       default upgrade;
-       '' close;
-     }
+      map $http_upgrade $connection_upgrade{
+        default upgrade;
+        '' close;
+      }
 
-     upstream webservers{
-       server 127.0.0.1:8082 weight=90 ;
-     }
+      upstream webservers{
+        server 127.0.0.1:8082 weight=90 ;
+      }
 
-       server {
-           listen       8081; # avoid: wechat 8080, docker 80
-           server_name  localhost;
+        server {
+            listen       8081; # avoid: wechat 8080, docker 80
+            server_name  localhost;
 
-           location / {
-               root   html/sky;
-               index  index.html index.htm;
-           }
+            location / {
+                root   html/sky;
+                index  index.html index.htm;
+            }
 
-           error_page   500 502 503 504  /50x.html;
-           location = /50x.html {
-               root   html;
-           }
+            error_page   500 502 503 504  /50x.html;
+            location = /50x.html {
+                root   html;
+            }
 
-           # 反向代理,处理管理端发送的请求
-           location /api/ {
-         proxy_pass   http://localhost:8082/admin/;
-           }
+            # 反向代理,处理管理端发送的请求
+            location /api/ {
+          proxy_pass   http://localhost:8082/admin/;
+            }
 
-       # 反向代理,处理用户端发送的请求
-           location /user/ {
-               proxy_pass   http://webservers/user/;
-           }
+        # 反向代理,处理用户端发送的请求
+            location /user/ {
+                proxy_pass   http://webservers/user/;
+            }
 
-       # WebSocket
-       location /ws/ {
-               proxy_pass   http://webservers/ws/;
-         proxy_http_version 1.1;
-         proxy_read_timeout 3600s;
-         proxy_set_header Upgrade $http_upgrade;
-         proxy_set_header Connection "$connection_upgrade";
-           }
-   }
+        # WebSocket
+        location /ws/ {
+                proxy_pass   http://webservers/ws/;
+          proxy_http_version 1.1;
+          proxy_read_timeout 3600s;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "$connection_upgrade";
+            }
+        }
+    }
    ```
 
 5. run `brew services start nginx`, and visit `localhost` in browser. To stop nginx, run `brew services stop nginx`
