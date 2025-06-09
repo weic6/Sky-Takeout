@@ -120,9 +120,17 @@ docker compose -f docker-compose.yaml stop
 docker compose -f docker-compose.yaml start
 ```
 
+## Compile
+
+run `mvn clean compile` to compile the project.
+
 ## Notes
 
 ![alt text](img/image.png)
 
 I use Java 17 to compile and build. In my IDE (i use VSCode), i change the JDK runtime (command palette -> Java: Configure Java Runtime) to `Amazon Corretto 17 [17.0.8]` as below:
 ![alt text](img/image2.png)
+
+### check swagger documentation
+
+visit `http://localhost:8082/doc.html` (use the same port in `sky-server/src/main/resources/application.yml`)
