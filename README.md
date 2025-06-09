@@ -99,18 +99,18 @@ docker compose exec -T db \
 # use database `sky_take_out`
 docker compose exec db \
   mysql -u root -p123456 sky_take_out
-#  You’ll see a prompt like:
-#
-#       mysql> SHOW TABLES;
-#       +-------------------+
-#       | Tables_in_sky_take_out |
-#       +-------------------+
-#       | address_book      |
-#       | category          |
-#       | dish              |
-#       | …                 |
-#       +-------------------+
+```
 
+Then run sql query:
+
+```sql
+mysql> SHOW TABLES;
+mysql> select * from employee;
+```
+
+Other command to restart/re-create a db container:
+
+```
 # remove/create container
 docker compose -f docker-compose.yaml down
 docker compose -f docker-compose.yaml up -d
