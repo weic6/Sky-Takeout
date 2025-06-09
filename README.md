@@ -134,3 +134,9 @@ I use Java 17 to compile and build. In my IDE (i use VSCode), i change the JDK r
 ### check swagger documentation
 
 visit `http://localhost:8082/doc.html` (use the same port in `sky-server/src/main/resources/application.yml`)
+
+### ThreadLocal
+
+every request is handle by the same thread.
+intercepter, controller, service works in the same thread for each request, so if intercept store the id info in threadlocal, this `id` can be read by `service`.
+ThreadLocal 并不是一个 Thread，而是 Thread 的局部变量。ThreadLocal 为每个线程提供单独一份存储空间，具有线程隔离的效果，只有在线程内才能获取到对应的值，线程外则不能访问。
