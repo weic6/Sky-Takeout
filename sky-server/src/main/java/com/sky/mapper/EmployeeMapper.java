@@ -4,6 +4,8 @@ import com.sky.entity.Employee;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import com.github.pagehelper.Page;
+import com.sky.dto.EmployeePageQueryDTO;
 
 @Mapper
 public interface EmployeeMapper {
@@ -22,5 +24,13 @@ public interface EmployeeMapper {
      */
     @Insert("insert into employee (name, username, password, phone, sex, id_number, status, create_time, update_time, create_user, update_user) values (#{name}, #{username}, #{password}, #{phone}, #{sex}, #{idNumber}, #{status}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})")
     void insert(Employee employee);
+
+    /**
+     * 分页查询
+     * query is written in the xml file: https://github.com/weic6/Sky-Takeout/blob/eb7226a9f0cfc24fde2e95223d3acf51b85860b4/sky-server/src/main/resources/mapper/EmployeeMapper.xml
+     * @param employeePageQueryDTO
+     * @return
+     */
+    Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
 
 }
