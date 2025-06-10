@@ -33,4 +33,11 @@ public interface EmployeeMapper {
      */
     Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
 
+    /**
+     * 根据主键动态修改属性
+     * 动态 -> sql语句不通过注解的方式写，而是通过xml文件写（sky-server/src/main/resources/mapper/EmployeeMapper.xml） 
+     * @param employee
+     */
+    void update(Employee employee);
+
 }
