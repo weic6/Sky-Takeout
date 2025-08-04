@@ -6,5 +6,11 @@
 **/test/
 .vscode
 
+# Environment variables
+.env
+
 # local MySQL persistence
 mysql_data/
+
+# Front-end (for now)
+sky(front-end)

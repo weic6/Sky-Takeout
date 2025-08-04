@@ -74,6 +74,11 @@ Reference:
 2. https://blog.csdn.net/qq_45828494/article/details/131982807
 3. https://github.com/weitianpaxi/sky_take_out/tree/main
 
+## Local Development Setup
+
+1. Copy `.env.example` to `.env`
+2. Fill in your actual credentials in `.env`
+
 ## Database
 
 The schema is provided in `sky.sql`. All actual data lives in a temporary Docker volume, so you can delete it at will.
@@ -123,6 +128,10 @@ docker compose -f docker-compose.yaml start
 ## Compile
 
 run `mvn clean compile` to compile the project.
+
+## Visit the web app
+
+`http://localhost:8081/`
 
 ## Notes
 
